@@ -2,8 +2,8 @@
   "name": "copilot-studio-report-agent",
   "description": "Copilot Studio agent pack: report development assistant (paginated, Power BI, semantic models)",
   "repository": {
-    "url": "",
-    "role": "",
+    "url": "https://github.com/sumkh/copilot-studio-report-agent.git",
+    "role": "personal",
     "history": []
   },
   "skill_folder": "skills/report-development",

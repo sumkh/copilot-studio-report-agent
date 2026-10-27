@@ -178,5 +178,5 @@ Optional settings that override the skill's defaults: `allow_unprotected_copies`
 ## Repository
 
 <!-- repo:start -->
-Repository: not set yet. Run `python dev/set_repo.py --url ...` (see HANDOVER.md).
+Repository (personal): https://github.com/sumkh/copilot-studio-report-agent.git
 <!-- repo:end -->
