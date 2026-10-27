@@ -1,0 +1,11 @@
+{
+  "files.encoding": "utf8",
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "[markdown]": { "files.trimTrailingWhitespace": false },
+  "[yaml]": { "files.trimTrailingWhitespace": false },
+  "files.exclude": { "**/__pycache__": true },
+  "search.exclude": { "**/__pycache__": true, "dist": true, "**/.mcs": true },
+  "python.analysis.extraPaths": ["skills/report-development/scripts", "dev", "dev/tests"]
+}

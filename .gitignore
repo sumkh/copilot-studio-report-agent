@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Build output (recreate with: python dev/package_skill.py)
+dist/
+
+# Organisation settings: real values belong in the ENTERPRISE repo only.
+# In the enterprise repo you can delete the next line to commit the file (see HANDOVER.md).
+org/org-settings.json
+
+# Copilot Studio extension: per-user connection (account, tenant, environment, agent ids), cloud cache
+# and sync token. Each developer connects with "Copilot Studio: Reattach Agent" instead.
+**/.mcs/
+
+# Local copies of Microsoft schemas used for extra validation (not redistributed)
+dev/schemas/
+
+# Scratch output from trying the scripts locally, and Power BI Desktop's per-user project files
+work/
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+
+# Editors and OS
+.DS_Store
+Thumbs.db
+*.swp

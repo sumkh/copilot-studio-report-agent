@@ -1,0 +1,58 @@
+{
+  "spec_version": "1.0",
+  "report_type": "semantic_model",
+  "report": {
+    "name": "",
+    "file_name": "",
+    "description": "",
+    "requested_by": "",
+    "culture": "en-US",
+    "version": 1
+  },
+  "plan": {
+    "approach": "model_first",
+    "next": "paginated",
+    "reason": ""
+  },
+  "samples": [],
+  "data_sources": [
+    {
+      "name": "",
+      "kind": "sql",
+      "server": "",
+      "database": "",
+      "display": "",
+      "identified_from": "",
+      "access_verified": false
+    }
+  ],
+  "tables": [
+    {
+      "name": "",
+      "role": "fact",
+      "description": "",
+      "data_source": "",
+      "source": {"schema": "dbo", "object": ""},
+      "mode": "import",
+      "columns": [],
+      "verified": {"executed": false, "rows": null, "at": null, "notes": ""}
+    }
+  ],
+  "relationships": [],
+  "measures": [],
+  "date_table": {"create": true, "name": "Date", "start": "2020-01-01", "end": "2027-12-31", "relationships": []},
+  "check_page": {"rows": [], "measures": []},
+  "exemplar": {"file": "", "keep_theme": true, "keep_page_background": true},
+  "validation": {
+    "sample_file": "",
+    "sample_sheet": "",
+    "sample_parameters": {},
+    "key_columns": [],
+    "measure_columns": [],
+    "measure_map": {},
+    "tolerance_abs": 0.01,
+    "tolerance_rel": 0.0
+  },
+  "open_questions": [],
+  "confirmations": {}
+}

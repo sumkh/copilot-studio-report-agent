@@ -1,0 +1,57 @@
+{
+  "spec_version": "1.0",
+  "report_type": "powerbi",
+  "report": {
+    "name": "",
+    "file_name": "",
+    "description": "",
+    "requested_by": "",
+    "version": 1
+  },
+  "plan": {
+    "approach": "direct",
+    "reason": ""
+  },
+  "samples": [],
+  "data_sources": [
+    {
+      "name": "model",
+      "kind": "powerbi_semantic_model",
+      "workspace": "",
+      "model_name": "",
+      "model_id": "",
+      "pbir_connection_string": null,
+      "identified_from": "",
+      "access_verified": false
+    }
+  ],
+  "fields": [],
+  "exemplar": {
+    "file": "",
+    "keep_theme": true,
+    "keep_page_background": true,
+    "keep_report_filters": false
+  },
+  "pages": [
+    {
+      "name": "Overview",
+      "width": 1280,
+      "height": 720,
+      "visuals": []
+    }
+  ],
+  "style": {
+    "notes": "Theme and visual formatting are inherited from the exemplar report."
+  },
+  "validation": {
+    "sample_file": "",
+    "sample_sheet": "",
+    "sample_parameters": {},
+    "key_columns": [],
+    "measure_columns": [],
+    "tolerance_abs": 0.01,
+    "tolerance_rel": 0.0
+  },
+  "open_questions": [],
+  "confirmations": {}
+}

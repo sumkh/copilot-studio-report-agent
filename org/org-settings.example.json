@@ -1,0 +1,19 @@
+{
+  "_comment": "Example only. In the ENTERPRISE repo, copy this file to org/org-settings.json and fill in your organisation's values. Never put real organisation values in the personal repo. org-settings.json is git-ignored by default; see HANDOVER.md before committing it.",
+  "agent_name": "Report Development Assistant",
+  "org_name": "Contoso",
+  "tenant_id": "00000000-0000-0000-0000-000000000000",
+  "bi_team_contact": "the BI Help channel in Teams (bi-help@contoso.com)",
+  "publishing_guide_url": "https://intranet.contoso.com/powerbi/publishing",
+  "output_root": "/Report Development Assistant",
+  "max_chat_rows": 20,
+  "tools": {
+    "fabric_iq": "Fabric IQ",
+    "sql_query": "SQL query",
+    "save_file": "Save file to OneDrive"
+  },
+  "restricted_labels": ["Highly Confidential"],
+  "allow_unprotected_copies": false,
+  "pbir_starter_template": null,
+  "agent_folder": "agent"
+}

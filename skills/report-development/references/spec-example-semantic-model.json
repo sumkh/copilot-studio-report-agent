@@ -1,0 +1,109 @@
+{
+  "spec_version": "1.0",
+  "report_type": "semantic_model",
+  "report": {
+    "name": "Sales Analytics Model",
+    "file_name": "Sales_Analytics_Model",
+    "description": "Sales by region and product category from SalesDW, with a calendar",
+    "requested_by": "Example User",
+    "culture": "en-US",
+    "version": 1
+  },
+  "plan": {
+    "approach": "model_first",
+    "next": "paginated",
+    "reason": "Several reports use the same sales figures; Margin % and the calendar are defined once in the model and the monthly paginated report then queries the model."
+  },
+  "samples": [
+    {"file": "Sample_Monthly_Sales_Report.xlsx", "role": "expected numbers (September 2026)"},
+    {"file": "Sample_Sales_By_Region.rdl", "role": "SQL source and query"}
+  ],
+  "data_sources": [
+    {
+      "name": "SalesDW",
+      "kind": "sql",
+      "server": "sql-prod-01.contoso.local",
+      "database": "SalesDW",
+      "display": "sql-prod-01.contoso.local / SalesDW",
+      "identified_from": "Sample_Sales_By_Region.rdl (data source SalesDW) and the Excel sample's Power Query",
+      "access_verified": true
+    }
+  ],
+  "tables": [
+    {
+      "name": "Sales",
+      "role": "fact",
+      "description": "One row per order line",
+      "data_source": "SalesDW",
+      "source": {"schema": "dbo", "object": "FactSales"},
+      "mode": "import",
+      "columns": [
+        {"name": "Order Date", "source_column": "OrderDate", "data_type": "dateTime", "date_only": true, "format": "dd/mm/yyyy", "summarize_by": "none"},
+        {"name": "Region Key", "source_column": "RegionKey", "data_type": "int64", "hidden": true, "summarize_by": "none"},
+        {"name": "Product Key", "source_column": "ProductKey", "data_type": "int64", "hidden": true, "summarize_by": "none"},
+        {"name": "Units", "source_column": "Units", "data_type": "int64", "hidden": true, "summarize_by": "sum", "format": "#,0"},
+        {"name": "Sales Amount", "source_column": "SalesAmount", "data_type": "double", "hidden": true, "summarize_by": "sum", "format": "#,0.00"},
+        {"name": "Cost", "source_column": "Cost", "data_type": "double", "hidden": true, "summarize_by": "sum", "format": "#,0.00"}
+      ],
+      "verified": {"executed": true, "rows": 120345, "at": "2026-10-26T09:10:00Z", "notes": "SELECT COUNT(*) FROM dbo.FactSales; columns checked in INFORMATION_SCHEMA.COLUMNS"}
+    },
+    {
+      "name": "Region",
+      "role": "dimension",
+      "data_source": "SalesDW",
+      "source": {"schema": "dbo", "object": "DimRegion"},
+      "mode": "import",
+      "columns": [
+        {"name": "Region Key", "source_column": "RegionKey", "data_type": "int64", "hidden": true, "summarize_by": "none"},
+        {"name": "Region", "source_column": "RegionName", "data_type": "string", "summarize_by": "none", "description": "Sales region"}
+      ],
+      "verified": {"executed": true, "rows": 3, "at": "2026-10-26T09:10:00Z", "notes": "SELECT COUNT(*), COUNT(DISTINCT RegionKey) FROM dbo.DimRegion"}
+    },
+    {
+      "name": "Product",
+      "role": "dimension",
+      "data_source": "SalesDW",
+      "source": {"query": "SELECT ProductKey, Category\nFROM dbo.DimProduct\nWHERE IsActive = 1"},
+      "mode": "import",
+      "columns": [
+        {"name": "Product Key", "source_column": "ProductKey", "data_type": "int64", "hidden": true, "summarize_by": "none"},
+        {"name": "Category", "source_column": "Category", "data_type": "string", "summarize_by": "none"}
+      ],
+      "verified": {"executed": true, "rows": 412, "at": "2026-10-26T09:11:00Z", "notes": "query returned 412 rows, 412 distinct ProductKey"}
+    }
+  ],
+  "relationships": [
+    {"from_table": "Sales", "from_column": "Region Key", "to_table": "Region", "to_column": "Region Key", "active": true, "cross_filter": "single", "verified_unique": true},
+    {"from_table": "Sales", "from_column": "Product Key", "to_table": "Product", "to_column": "Product Key", "active": true, "cross_filter": "single", "verified_unique": true}
+  ],
+  "measures": [
+    {"table": "Sales", "name": "Total Units", "expression": "SUM('Sales'[Units])", "format": "#,0", "description": "Units sold"},
+    {"table": "Sales", "name": "Total Sales", "expression": "SUM('Sales'[Sales Amount])", "format": "#,0.00", "description": "Net sales amount"},
+    {"table": "Sales", "name": "Total Cost", "expression": "SUM('Sales'[Cost])", "format": "#,0.00", "description": "Cost of goods sold"},
+    {"table": "Sales", "name": "Margin %", "expression": "DIVIDE(\n    [Total Sales] - [Total Cost],\n    [Total Sales]\n)", "format": "0.0%", "description": "(Sales - Cost) / Sales"}
+  ],
+  "date_table": {
+    "create": true,
+    "name": "Date",
+    "start": "2020-01-01",
+    "end": "2027-12-31",
+    "relationships": [{"table": "Sales", "column": "Order Date", "active": true}]
+  },
+  "check_page": {
+    "rows": [{"table": "Region", "column": "Region"}, {"table": "Product", "column": "Category"}],
+    "measures": ["Total Units", "Total Sales", "Total Cost", "Margin %"]
+  },
+  "exemplar": {"file": "Sample_Sales_Overview_pbip.zip", "keep_theme": true, "keep_page_background": true},
+  "validation": {
+    "sample_file": "Sample_Monthly_Sales_Report.xlsx",
+    "sample_sheet": "Sales Report",
+    "sample_parameters": {"StartDate": "2026-09-01", "EndDate": "2026-09-30"},
+    "key_columns": ["Region", "Product Category"],
+    "measure_columns": ["Units", "Sales Amount", "Cost"],
+    "measure_map": {"Units": "Total Units", "Sales Amount": "Total Sales", "Cost": "Total Cost"},
+    "tolerance_abs": 0.01,
+    "tolerance_rel": 0.0
+  },
+  "open_questions": [],
+  "confirmations": {}
+}

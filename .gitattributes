@@ -1,0 +1,17 @@
+# Our own text files are stored and checked out with LF, so the skill is byte-identical on Windows,
+# in CI and in the Copilot Studio sandbox (dev/sync_to_agent.py compares bytes).
+* text=auto eol=lf
+
+# Binary assets
+*.zip binary
+*.xlsx binary
+*.xlsm binary
+*.pbit binary
+*.pbix binary
+*.png binary
+*.jpg binary
+*.pdf binary
+*.abf binary
+
+# Files written by the Copilot Studio extension: keep exactly as written (it may use a BOM or CRLF).
+agent/** -text

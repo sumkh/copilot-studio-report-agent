@@ -1,0 +1,297 @@
+{
+  "spec_version": "1.0",
+  "report_type": "paginated",
+  "report": {
+    "name": "Monthly Sales Report",
+    "file_name": "Monthly_Sales_Report",
+    "description": "Monthly sales by region and product category with region subtotals and a grand total",
+    "requested_by": "Example User",
+    "primary_export": "excel",
+    "version": 1
+  },
+  "plan": {
+    "approach": "direct",
+    "reason": "The certified semantic model already holds these numbers; the paginated report queries it directly."
+  },
+  "samples": [
+    {
+      "file": "Sample_Monthly_Sales_Report.xlsx",
+      "role": "layout, formatting and expected numbers (September 2026)"
+    }
+  ],
+  "data_sources": [
+    {
+      "name": "SalesModel",
+      "kind": "powerbi_semantic_model",
+      "data_provider": "PBIDATASET",
+      "connect_string": "Data Source=pbiazure://api.powerbi.com/;Identity Provider=\"https://login.microsoftonline.com/common, https://analysis.windows.net/powerbi/api, 11111111-2222-3333-4444-555555555555\";Initial Catalog=sobe_wowvirtualserver-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee;Integrated Security=ClaimsToken",
+      "display": "Sales Analytics / Sales Analytics Model",
+      "identified_from": "Sample_Monthly_Sales_Report.xlsx (Analyze in Excel connection)",
+      "access_verified": true
+    }
+  ],
+  "datasets": [
+    {
+      "name": "dsSales",
+      "data_source": "SalesModel",
+      "query_language": "DAX",
+      "command_text": "DEFINE\n    VAR __Start = DATEVALUE(@StartDate)\n    VAR __End = DATEVALUE(@EndDate)\nEVALUATE\n    SUMMARIZECOLUMNS(\n        'Geography'[Region],\n        'Product'[Category],\n        FILTER(ALL('Date'[Date]), 'Date'[Date] >= __Start && 'Date'[Date] <= __End),\n        \"Units\", [Total Units],\n        \"Sales Amount\", [Total Sales],\n        \"Cost\", [Total Cost]\n    )\nORDER BY 'Geography'[Region], 'Product'[Category]",
+      "query_parameters": [
+        {
+          "name": "StartDate",
+          "value": "=Format(Parameters!StartDate.Value, \"yyyy-MM-dd\")"
+        },
+        {
+          "name": "EndDate",
+          "value": "=Format(Parameters!EndDate.Value, \"yyyy-MM-dd\")"
+        }
+      ],
+      "fields": [
+        {
+          "name": "Region",
+          "data_field": "Geography[Region]",
+          "type": "String",
+          "description": "sample column 'Region'"
+        },
+        {
+          "name": "ProductCategory",
+          "data_field": "Product[Category]",
+          "type": "String",
+          "description": "sample column 'Product Category'"
+        },
+        {
+          "name": "Units",
+          "data_field": "[Units]",
+          "type": "Integer",
+          "description": "measure [Total Units]"
+        },
+        {
+          "name": "SalesAmount",
+          "data_field": "[Sales Amount]",
+          "type": "Float",
+          "description": "measure [Total Sales]"
+        },
+        {
+          "name": "Cost",
+          "data_field": "[Cost]",
+          "type": "Float",
+          "description": "measure [Total Cost]"
+        }
+      ],
+      "verified": {
+        "executed": true,
+        "rows": 10,
+        "at": "2026-10-26T09:30:00Z",
+        "notes": "ExecuteQuery for 2026-09-01..2026-09-30 returned 10 rows"
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "name": "StartDate",
+      "data_type": "DateTime",
+      "prompt": "Start date",
+      "default": "=DateSerial(Year(Today()), Month(Today()) - 1, 1)",
+      "multi_value": false,
+      "allow_blank": false,
+      "nullable": false,
+      "hidden": false,
+      "valid_values": null
+    },
+    {
+      "name": "EndDate",
+      "data_type": "DateTime",
+      "prompt": "End date",
+      "default": "=DateAdd(\"d\", -1, DateSerial(Year(Today()), Month(Today()), 1))",
+      "multi_value": false,
+      "allow_blank": false,
+      "nullable": false,
+      "hidden": false,
+      "valid_values": null
+    }
+  ],
+  "layout": {
+    "page": {
+      "orientation": "Landscape",
+      "width_pt": 842,
+      "height_pt": 595,
+      "margins_pt": {
+        "top": 36,
+        "bottom": 36,
+        "left": 36,
+        "right": 36
+      }
+    },
+    "title": {
+      "text": "Contoso Ltd - Monthly Sales Report",
+      "placement": "body"
+    },
+    "subtitle_lines": [
+      "=\"Period: \" & Format(Parameters!StartDate.Value, \"MMMM yyyy\")"
+    ],
+    "table": {
+      "dataset": "dsSales",
+      "mode": "table",
+      "columns": [
+        {
+          "header": "Region",
+          "field": "Region",
+          "width_pt": 77,
+          "format": null,
+          "align": "Left",
+          "aggregate": null
+        },
+        {
+          "header": "Product Category",
+          "field": "ProductCategory",
+          "width_pt": 119,
+          "format": null,
+          "align": "Left",
+          "aggregate": null
+        },
+        {
+          "header": "Units",
+          "field": "Units",
+          "width_pt": 56,
+          "format": "#,##0",
+          "align": "Right",
+          "aggregate": "Sum"
+        },
+        {
+          "header": "Sales Amount",
+          "field": "SalesAmount",
+          "width_pt": 88,
+          "format": "#,##0.00",
+          "align": "Right",
+          "aggregate": "Sum"
+        },
+        {
+          "header": "Cost",
+          "field": "Cost",
+          "width_pt": 88,
+          "format": "#,##0.00",
+          "align": "Right",
+          "aggregate": "Sum"
+        },
+        {
+          "header": "Margin %",
+          "expression": "=IIf(Fields!SalesAmount.Value = 0, 0, (Fields!SalesAmount.Value - Fields!Cost.Value) / Fields!SalesAmount.Value)",
+          "width_pt": 62,
+          "format": "0.0%",
+          "align": "Right",
+          "aggregate": "Expression",
+          "total_expression": "=IIf(Sum(Fields!SalesAmount.Value) = 0, 0, (Sum(Fields!SalesAmount.Value) - Sum(Fields!Cost.Value)) / Sum(Fields!SalesAmount.Value))"
+        }
+      ],
+      "row_groups": [
+        {
+          "field": "Region",
+          "subtotal": true,
+          "subtotal_label": "=Fields!Region.Value & \" Total\"",
+          "page_break": false,
+          "sheet_name": null
+        }
+      ],
+      "detail_sort": [
+        {
+          "field": "ProductCategory",
+          "direction": "Ascending"
+        }
+      ],
+      "grand_total": {
+        "show": true,
+        "label": "Grand Total"
+      },
+      "repeat_header_rows": true,
+      "repeat_group_values": true,
+      "header_row_height_pt": 20,
+      "row_height_pt": 15
+    },
+    "footer": {
+      "page_number": true,
+      "execution_time": false,
+      "text": null
+    }
+  },
+  "style": {
+    "font_family": "Calibri",
+    "font_size_pt": 10,
+    "title": {
+      "font_size_pt": 14,
+      "font_weight": "Bold",
+      "color": "#1F4E78"
+    },
+    "subtitle": {
+      "font_size_pt": 10,
+      "font_style": "Italic",
+      "color": "#595959"
+    },
+    "header": {
+      "font_weight": "Bold",
+      "color": "#FFFFFF",
+      "background": "#1F4E78",
+      "border_style": "Solid",
+      "border_color": "#BFBFBF",
+      "border_width_pt": 1,
+      "text_align": "Center",
+      "vertical_align": "Middle",
+      "wrap": true
+    },
+    "detail": {
+      "color": "#000000",
+      "border_style": "Solid",
+      "border_color": "#D9D9D9",
+      "border_width_pt": 1
+    },
+    "alt_row_background": "#F2F2F2",
+    "subtotal": {
+      "font_weight": "Bold",
+      "background": "#DDEBF7",
+      "border_style": "Solid",
+      "border_color": "#1F4E78",
+      "border_width_pt": 1,
+      "border_sides": [
+        "top"
+      ]
+    },
+    "grand_total": {
+      "font_weight": "Bold",
+      "background": "#BDD7EE",
+      "border_style": "Double",
+      "border_color": "#1F4E78",
+      "border_width_pt": 3,
+      "border_sides": [
+        "top",
+        "bottom"
+      ]
+    }
+  },
+  "excel_export": {
+    "initial_sheet_name": "Sales Report",
+    "notes": [
+      "The sample's Excel formulas (SUBTOTAL, Margin %) become values in the export.",
+      "Frozen panes and the 'Confidential' print header are not reproduced; the title rows are part of the sheet."
+    ]
+  },
+  "validation": {
+    "sample_file": "Sample_Monthly_Sales_Report.xlsx",
+    "sample_sheet": "Sales Report",
+    "sample_parameters": {
+      "StartDate": "2026-09-01",
+      "EndDate": "2026-09-30"
+    },
+    "key_columns": [
+      "Region",
+      "Product Category"
+    ],
+    "measure_columns": [
+      "Units",
+      "Sales Amount",
+      "Cost"
+    ],
+    "tolerance_abs": 0.01,
+    "tolerance_rel": 0.0
+  },
+  "open_questions": [],
+  "confirmations": {}
+}

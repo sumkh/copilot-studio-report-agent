@@ -1,0 +1,137 @@
+{
+  "spec_version": "1.0",
+  "report_type": "paginated",
+  "report": {
+    "name": "",
+    "file_name": "",
+    "description": "",
+    "requested_by": "",
+    "primary_export": "excel",
+    "version": 1
+  },
+  "plan": {
+    "approach": "direct",
+    "reason": ""
+  },
+  "samples": [],
+  "data_sources": [
+    {
+      "name": "",
+      "kind": "powerbi_semantic_model",
+      "data_provider": "PBIDATASET",
+      "connect_string": "",
+      "display": "",
+      "identified_from": "",
+      "access_verified": false
+    }
+  ],
+  "datasets": [
+    {
+      "name": "dsMain",
+      "data_source": "",
+      "query_language": "DAX",
+      "command_text": "",
+      "query_parameters": [],
+      "fields": [],
+      "verified": {
+        "executed": false,
+        "rows": null,
+        "at": null,
+        "notes": ""
+      }
+    }
+  ],
+  "parameters": [],
+  "layout": {
+    "page": {
+      "orientation": "Landscape",
+      "width_pt": 842,
+      "height_pt": 595,
+      "margins_pt": {
+        "top": 36,
+        "bottom": 36,
+        "left": 36,
+        "right": 36
+      }
+    },
+    "title": {
+      "text": "",
+      "placement": "body"
+    },
+    "subtitle_lines": [],
+    "table": {
+      "dataset": "dsMain",
+      "mode": "table",
+      "columns": [],
+      "row_groups": [],
+      "detail_sort": [],
+      "grand_total": {
+        "show": true,
+        "label": "Grand Total"
+      },
+      "repeat_header_rows": true,
+      "repeat_group_values": true,
+      "header_row_height_pt": 20,
+      "row_height_pt": 15
+    },
+    "footer": {
+      "page_number": true,
+      "execution_time": false,
+      "text": null
+    }
+  },
+  "style": {
+    "font_family": "Calibri",
+    "font_size_pt": 10,
+    "title": {
+      "font_size_pt": 14,
+      "font_weight": "Bold",
+      "color": "#000000"
+    },
+    "subtitle": {
+      "font_size_pt": 10,
+      "font_style": "Italic",
+      "color": "#595959"
+    },
+    "header": {
+      "font_weight": "Bold",
+      "color": "#000000",
+      "background": null,
+      "border_style": "Solid",
+      "border_color": "#BFBFBF",
+      "border_width_pt": 1,
+      "text_align": "Center",
+      "vertical_align": "Middle"
+    },
+    "detail": {
+      "color": "#000000",
+      "border_style": "Solid",
+      "border_color": "#D9D9D9",
+      "border_width_pt": 1
+    },
+    "alt_row_background": null,
+    "subtotal": {
+      "font_weight": "Bold",
+      "background": null
+    },
+    "grand_total": {
+      "font_weight": "Bold",
+      "background": null
+    }
+  },
+  "excel_export": {
+    "initial_sheet_name": "",
+    "notes": []
+  },
+  "validation": {
+    "sample_file": "",
+    "sample_sheet": "",
+    "sample_parameters": {},
+    "key_columns": [],
+    "measure_columns": [],
+    "tolerance_abs": 0.01,
+    "tolerance_rel": 0.0
+  },
+  "open_questions": [],
+  "confirmations": {}
+}

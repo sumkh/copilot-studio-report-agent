@@ -1,0 +1,174 @@
+{
+  "spec_version": "1.0",
+  "report_type": "powerbi",
+  "report": {
+    "name": "Regional Sales Dashboard",
+    "file_name": "Regional_Sales_Dashboard",
+    "description": "One-page overview of sales by region and product category",
+    "requested_by": "Example User",
+    "version": 1
+  },
+  "plan": {
+    "approach": "direct",
+    "reason": "Built live on the existing published semantic model."
+  },
+  "samples": [
+    {
+      "file": "Sample_Sales_Overview_pbip.zip",
+      "role": "theme, layout and visual formatting"
+    },
+    {
+      "file": "Sample_Monthly_Sales_Report.xlsx",
+      "role": "expected numbers (September 2026)"
+    }
+  ],
+  "data_sources": [
+    {
+      "name": "model",
+      "kind": "powerbi_semantic_model",
+      "workspace": "Sales Analytics",
+      "model_name": "Sales Analytics Model",
+      "model_id": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "pbir_connection_string": null,
+      "identified_from": "Sample_Sales_Overview_pbip.zip (definition.pbir)",
+      "access_verified": true
+    }
+  ],
+  "fields": [
+    {
+      "id": "region",
+      "table": "Geography",
+      "name": "Region",
+      "kind": "column",
+      "description": "sample column 'Region'"
+    },
+    {
+      "id": "category",
+      "table": "Product",
+      "name": "Category",
+      "kind": "column",
+      "description": "sample column 'Product Category'"
+    },
+    {
+      "id": "sales",
+      "table": "Sales",
+      "name": "Total Sales",
+      "kind": "measure",
+      "description": "sample column 'Sales Amount'"
+    },
+    {
+      "id": "units",
+      "table": "Sales",
+      "name": "Total Units",
+      "kind": "measure",
+      "description": "sample column 'Units'"
+    }
+  ],
+  "exemplar": {
+    "file": "Sample_Sales_Overview_pbip.zip",
+    "keep_theme": true,
+    "keep_page_background": true,
+    "keep_report_filters": false
+  },
+  "pages": [
+    {
+      "name": "Regional Overview",
+      "width": 1280,
+      "height": 720,
+      "visuals": [
+        {
+          "type": "card",
+          "title": "Total Sales",
+          "roles": {
+            "Values": [
+              "sales"
+            ]
+          },
+          "position": {
+            "x": 24,
+            "y": 24,
+            "width": 280,
+            "height": 140
+          }
+        },
+        {
+          "type": "card",
+          "title": "Total Units",
+          "roles": {
+            "Values": [
+              "units"
+            ]
+          },
+          "position": {
+            "x": 24,
+            "y": 180,
+            "width": 280,
+            "height": 140
+          }
+        },
+        {
+          "type": "clusteredColumnChart",
+          "title": "Sales by Region",
+          "roles": {
+            "Category": [
+              "region"
+            ],
+            "Y": [
+              "sales"
+            ]
+          },
+          "position": {
+            "x": 320,
+            "y": 24,
+            "width": 936,
+            "height": 296
+          },
+          "sort": {
+            "field": "sales",
+            "direction": "Descending"
+          }
+        },
+        {
+          "type": "tableEx",
+          "title": "Sales by Region and Category",
+          "roles": {
+            "Values": [
+              "region",
+              "category",
+              "units",
+              "sales"
+            ]
+          },
+          "position": {
+            "x": 24,
+            "y": 336,
+            "width": 1232,
+            "height": 360
+          }
+        }
+      ]
+    }
+  ],
+  "style": {
+    "notes": "Theme (Contoso Corporate), page background and visual formatting are inherited from the exemplar report."
+  },
+  "validation": {
+    "sample_file": "Sample_Monthly_Sales_Report.xlsx",
+    "sample_sheet": "Sales Report",
+    "sample_parameters": {
+      "Month": "September 2026"
+    },
+    "key_columns": [
+      "Region",
+      "Product Category"
+    ],
+    "measure_columns": [
+      "Units",
+      "Sales Amount"
+    ],
+    "tolerance_abs": 0.01,
+    "tolerance_rel": 0.0
+  },
+  "open_questions": [],
+  "confirmations": {}
+}

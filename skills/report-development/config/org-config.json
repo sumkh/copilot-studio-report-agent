@@ -1,0 +1,57 @@
+{
+  "_comment": "Organisation settings read by the agent. Replace every {{...}} value before packaging the skill (see README.md, section 'Placeholders').",
+  "org_name": "{{ORG_NAME}}",
+  "agent_name": "{{AGENT_NAME}}",
+  "tenant_id": "{{TENANT_ID}}",
+  "bi_team_contact": "{{BI_TEAM_CONTACT}}",
+  "publishing_guide_url": "{{PUBLISHING_GUIDE_URL}}",
+  "output_root": "{{OUTPUT_ROOT}}",
+  "max_chat_rows": 20,
+  "tools": {
+    "fabric_iq": "Fabric IQ",
+    "sql_query": "{{SQL_QUERY_TOOL_NAME}}",
+    "save_file": "{{SAVE_FILE_TOOL_NAME}}"
+  },
+  "supported_sources": {
+    "_comment": "Source types the agent can verify and use. Anything else stops at the access check (step 3).",
+    "powerbi_semantic_model": "fabric_iq",
+    "sql": "sql_query"
+  },
+  "semantic_model_defaults": {
+    "compatibility_level": 1567,
+    "culture": "en-US",
+    "storage_mode": "import",
+    "date_table_years_ahead": 1
+  },
+  "sql_data_providers": {
+    "_comment": "RDL DataProvider names. Check them against a report saved by Power BI Report Builder in your tenant.",
+    "sql_server": "SQL",
+    "azure_sql": "SQLAZURE",
+    "fabric_sql_endpoint": "SQLAZURE"
+  },
+  "sensitivity": {
+    "restricted_labels": ["{{RESTRICTED_LABEL_1}}", "{{RESTRICTED_LABEL_2}}"],
+    "allow_unprotected_copies": false
+  },
+  "pbir_starter_template": null,
+  "default_page": {
+    "paper": "A4",
+    "orientation": "Landscape",
+    "width_pt": 842,
+    "height_pt": 595,
+    "margins_pt": {"top": 36, "bottom": 36, "left": 36, "right": 36}
+  },
+  "default_style": {
+    "_comment": "Used only when the user has no sample to copy. Set to your corporate report style.",
+    "font_family": "Segoe UI",
+    "font_size_pt": 9,
+    "title": {"font_size_pt": 14, "font_weight": "Bold", "color": "#1F4E78"},
+    "subtitle": {"font_size_pt": 9, "font_style": "Italic", "color": "#595959"},
+    "header": {"font_weight": "Bold", "color": "#FFFFFF", "background": "#1F4E78", "border_style": "Solid", "border_color": "#BFBFBF", "border_width_pt": 1, "text_align": "Center", "vertical_align": "Middle"},
+    "detail": {"color": "#262626", "border_style": "Solid", "border_color": "#D9D9D9", "border_width_pt": 1},
+    "alt_row_background": "#F2F2F2",
+    "subtotal": {"font_weight": "Bold", "background": "#DDEBF7"},
+    "grand_total": {"font_weight": "Bold", "background": "#BDD7EE", "border_style": "Double", "border_color": "#1F4E78", "border_width_pt": 3, "border_sides": ["top", "bottom"]}
+  },
+  "validation": {"tolerance_abs": 0.01, "tolerance_rel": 0.0}
+}

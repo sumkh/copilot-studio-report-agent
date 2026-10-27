@@ -1,0 +1,15 @@
+{
+  "name": "copilot-studio-report-agent",
+  "description": "Copilot Studio agent pack: report development assistant (paginated, Power BI, semantic models)",
+  "repository": {
+    "url": "",
+    "role": "",
+    "history": []
+  },
+  "skill_folder": "skills/report-development",
+  "agent_folder": "agent",
+  "copilot_studio": {
+    "harness": "GitHub Copilot",
+    "vscode_extension": "ms-CopilotStudio.vscode-copilotstudio"
+  }
+}

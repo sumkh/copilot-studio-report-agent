@@ -1,0 +1,247 @@
+{
+  "spec_version": "1.0",
+  "report_type": "paginated",
+  "report": {
+    "name": "Sales by Month Matrix",
+    "file_name": "Sales_by_Month_Matrix",
+    "description": "Matrix test",
+    "requested_by": "Test",
+    "primary_export": "excel",
+    "version": 1
+  },
+  "samples": [],
+  "data_sources": [
+    {
+      "name": "SalesDW",
+      "kind": "sql",
+      "data_provider": "SQL",
+      "connect_string": "Data Source=sql-prod-01.contoso.local;Initial Catalog=SalesDW",
+      "display": "sql-prod-01 / SalesDW",
+      "identified_from": "test",
+      "access_verified": true
+    }
+  ],
+  "datasets": [
+    {
+      "name": "dsSales",
+      "data_source": "SalesDW",
+      "query_language": "SQL",
+      "command_text": "SELECT r.RegionName AS Region, p.Category, d.MonthName, d.MonthNumber, SUM(f.SalesAmount) AS SalesAmount, SUM(f.Units) AS Units\nFROM dbo.FactSales f JOIN dbo.DimRegion r ON r.RegionKey = f.RegionKey JOIN dbo.DimProduct p ON p.ProductKey = f.ProductKey JOIN dbo.DimDate d ON d.DateKey = f.DateKey\nWHERE d.CalendarYear = @Year AND r.RegionName IN (@Region)\nGROUP BY r.RegionName, p.Category, d.MonthName, d.MonthNumber",
+      "query_parameters": [
+        {
+          "name": "Year",
+          "value": "=Parameters!Year.Value"
+        },
+        {
+          "name": "@Region",
+          "value": "=Parameters!Region.Value"
+        }
+      ],
+      "fields": [
+        {
+          "name": "Region",
+          "data_field": "Region",
+          "type": "String"
+        },
+        {
+          "name": "Category",
+          "data_field": "Category",
+          "type": "String"
+        },
+        {
+          "name": "MonthName",
+          "data_field": "MonthName",
+          "type": "String"
+        },
+        {
+          "name": "MonthNumber",
+          "data_field": "MonthNumber",
+          "type": "Integer"
+        },
+        {
+          "name": "SalesAmount",
+          "data_field": "SalesAmount",
+          "type": "Decimal"
+        },
+        {
+          "name": "Units",
+          "data_field": "Units",
+          "type": "Integer"
+        }
+      ],
+      "verified": {
+        "executed": true,
+        "rows": 36,
+        "at": "2026-10-26T10:00:00Z",
+        "notes": "test run with Year=2026"
+      }
+    },
+    {
+      "name": "dsRegions",
+      "data_source": "SalesDW",
+      "query_language": "SQL",
+      "command_text": "SELECT DISTINCT RegionName FROM dbo.DimRegion ORDER BY RegionName",
+      "query_parameters": [],
+      "fields": [
+        {
+          "name": "RegionName",
+          "data_field": "RegionName",
+          "type": "String"
+        }
+      ],
+      "verified": {
+        "executed": true,
+        "rows": 36,
+        "at": "2026-10-26T10:00:00Z",
+        "notes": "test run with Year=2026"
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "name": "Year",
+      "data_type": "Integer",
+      "prompt": "Year",
+      "default": "=Year(Today())"
+    },
+    {
+      "name": "Region",
+      "data_type": "String",
+      "prompt": "Region",
+      "multi_value": true,
+      "valid_values": {
+        "dataset": "dsRegions",
+        "value_field": "RegionName",
+        "label_field": "RegionName"
+      },
+      "default_from_dataset": {
+        "dataset": "dsRegions",
+        "value_field": "RegionName"
+      }
+    }
+  ],
+  "layout": {
+    "page": {
+      "orientation": "Landscape",
+      "width_pt": 1191,
+      "height_pt": 842,
+      "margins_pt": {
+        "top": 36,
+        "bottom": 36,
+        "left": 36,
+        "right": 36
+      }
+    },
+    "title": {
+      "text": "Sales by Month",
+      "placement": "page_header"
+    },
+    "subtitle_lines": [
+      "=\"Year \" & Parameters!Year.Value"
+    ],
+    "table": {
+      "dataset": "dsSales",
+      "mode": "matrix",
+      "row_groups": [
+        {
+          "field": "Region",
+          "header": "Region",
+          "width_pt": 80,
+          "subtotal": false
+        },
+        {
+          "field": "Category",
+          "header": "Category",
+          "width_pt": 100,
+          "subtotal": true,
+          "subtotal_label": "=Fields!Region.Value & \" Total\""
+        }
+      ],
+      "column_group": {
+        "field": "MonthName",
+        "sort_expression": "=Fields!MonthNumber.Value",
+        "header_expression": "=Fields!MonthName.Value",
+        "total": true,
+        "total_label": "Year Total"
+      },
+      "values": [
+        {
+          "header": "Sales",
+          "field": "SalesAmount",
+          "aggregate": "Sum",
+          "format": "#,##0",
+          "width_pt": 60,
+          "align": "Right"
+        },
+        {
+          "header": "Units",
+          "field": "Units",
+          "aggregate": "Sum",
+          "format": "#,##0",
+          "width_pt": 44,
+          "align": "Right"
+        }
+      ],
+      "grand_total": {
+        "show": true,
+        "label": "Grand Total"
+      },
+      "header_row_height_pt": 18,
+      "row_height_pt": 15
+    },
+    "footer": {
+      "page_number": true,
+      "execution_time": true,
+      "text": "Internal use only"
+    }
+  },
+  "style": {
+    "font_family": "Arial",
+    "font_size_pt": 9,
+    "title": {
+      "font_size_pt": 14,
+      "font_weight": "Bold",
+      "color": "#1F4E78"
+    },
+    "header": {
+      "font_weight": "Bold",
+      "color": "#FFFFFF",
+      "background": "#1F4E78",
+      "border_style": "Solid",
+      "border_color": "#BFBFBF",
+      "border_width_pt": 1,
+      "vertical_align": "Middle"
+    },
+    "detail": {
+      "border_style": "Solid",
+      "border_color": "#D9D9D9",
+      "border_width_pt": 0.5
+    },
+    "subtotal": {
+      "font_weight": "Bold",
+      "background": "#DDEBF7"
+    },
+    "grand_total": {
+      "font_weight": "Bold",
+      "background": "#BDD7EE",
+      "border_style": "Double",
+      "border_color": "#1F4E78",
+      "border_width_pt": 3,
+      "border_sides": [
+        "top",
+        "bottom"
+      ]
+    }
+  },
+  "excel_export": {
+    "initial_sheet_name": "Sales by Month",
+    "notes": []
+  },
+  "validation": {},
+  "open_questions": [],
+  "confirmations": {},
+  "plan": {
+    "approach": "direct",
+    "reason": "single paginated report straight from SalesDW"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "folders": [
+    { "name": "pack (source)", "path": "." },
+    { "name": "agent (Copilot Studio clone)", "path": "agent" }
+  ],
+  "settings": {
+    "files.exclude": { "agent": true, "**/__pycache__": true },
+    "search.exclude": { "**/.mcs": true, "dist": true }
+  }
+}

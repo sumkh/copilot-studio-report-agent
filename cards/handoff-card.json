@@ -1,0 +1,40 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "Your report files are ready",
+      "weight": "Bolder",
+      "size": "Medium",
+      "wrap": true
+    },
+    {
+      "type": "TextBlock",
+      "text": "${reportName} (version ${version})",
+      "isSubtle": true,
+      "spacing": "None",
+      "wrap": true
+    },
+    {
+      "type": "FactSet",
+      "facts": [
+        { "title": "Type", "value": "${reportType}" },
+        { "title": "Data source", "value": "${dataSource}" },
+        { "title": "Number check", "value": "${validationStatus}" },
+        { "title": "Structure check", "value": "${structureStatus}" },
+        { "title": "Saved to", "value": "${folderPath}" }
+      ]
+    },
+    {
+      "type": "TextBlock",
+      "text": "Next: run the report for ${sampleParameters}, export it to Excel and send me the file for a final comparison. Publish it when you're happy.",
+      "wrap": true
+    }
+  ],
+  "actions": [
+    { "type": "Action.OpenUrl", "title": "Open folder", "url": "${folderUrl}" },
+    { "type": "Action.OpenUrl", "title": "How to publish", "url": "${publishingGuideUrl}" }
+  ]
+}
