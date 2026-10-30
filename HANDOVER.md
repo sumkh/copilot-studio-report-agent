@@ -5,6 +5,8 @@ This repo is developed in two places:
 1. **Personal machine (now).** Preliminary development with Claude Code: the skill, scripts, instructions and tests. This repo holds no organisation values.
 2. **Enterprise machine (later).** Refinement in VS Code with the Copilot Studio extension, against your enterprise Copilot Studio environment. Organisation values are added here.
 
+If you'd rather copy the files by hand into an agent you've already cloned, follow [MANUAL-SETUP.md](MANUAL-SETUP.md) instead.
+
 Work flows one way only, from personal to enterprise. Nothing from the enterprise side (organisation settings, the cloned `agent/` folder, enterprise data) ever goes back to the personal repo.
 
 ---

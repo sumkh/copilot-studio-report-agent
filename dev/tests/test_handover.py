@@ -10,6 +10,7 @@ behaviors/<skill>/ with skill.mcs.yml and per-file .mcs.yml sidecars, and a hidd
 """
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -286,6 +287,17 @@ def add_checks(work, check, py=sys.executable):
             assert len(names) == len(render.skill_files())
             assert json.loads(z.read("report-development/config/org-config.json"))["org_name"] == "Contoso"
     check("package_skill builds a zip with organisation settings filled in", t_package)
+
+    def t_manual_checklist():
+        text = read(ROOT, "MANUAL-SETUP.md")
+        files = render.skill_files()
+        missing = [rel for rel in files if "`%s`" % rel not in text]
+        assert not missing, "MANUAL-SETUP.md checklist is missing: %s" % ", ".join(missing)
+        assert "the %d skill files" % len(files) in text and "the %d files" % len(files) in text, "update the file count in MANUAL-SETUP.md"
+        for folder in ("references", "scripts"):
+            n = sum(1 for rel in files if rel.startswith(folder + "/"))
+            assert re.search(r"%s/\s+\(%d files\)" % (folder, n), text), "update the %s count in MANUAL-SETUP.md" % folder
+    check("MANUAL-SETUP.md lists every skill file", t_manual_checklist)
 
 
 def main():

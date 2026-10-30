@@ -29,6 +29,7 @@ Audience: the Copilot Studio maker who sets the agent up, and the admins who app
 | `org/org-settings.example.json` | Shape of the organisation settings. The real `org/org-settings.json` exists in the enterprise repo only | Filled into rendered copies; the source files stay generic |
 | `agent/` | *(enterprise only)* The agent as cloned by the Copilot Studio VS Code extension | Preview and Apply in the extension |
 | `HANDOVER.md` | Personal repo → enterprise repo → Copilot Studio, step by step | Read first on the enterprise side |
+| `MANUAL-SETUP.md` | Copy the files by hand into an agent cloned with the VS Code extension | Alternative to HANDOVER.md |
 | `AGENTS.md` | Rules for developers and coding assistants (Claude Code, GitHub Copilot) | |
 | `tools/TOOLS.md` | Setting up Fabric IQ, the SQL query tool and Save file, with end-user sign-in; tools **not** to add | Copilot Studio › Tools |
 | `evals/test-set.csv` | 35 single-turn test cases | Copilot Studio › Evaluate › upload CSV |
@@ -72,7 +73,7 @@ The rules are enforced in code, not just in instructions. `spec_tool.py` refuses
 
 ## What has been tested
 
-`dev/tests/run_tests.py` runs 18 tests. Six of them (`dev/tests/test_handover.py`) cover the handover tooling: rendering organisation settings, packaging, and syncing into a fake agent clone modelled on the VS Code extension's GitHub Copilot harness layout. They also cover moving the repository URL. The other 12 are end-to-end tests on synthetic samples:
+`dev/tests/run_tests.py` runs 19 tests. Seven of them (`dev/tests/test_handover.py`) cover the handover tooling: rendering organisation settings, packaging, and syncing into a fake agent clone modelled on the VS Code extension's GitHub Copilot harness layout. They also cover moving the repository URL and keeping the MANUAL-SETUP.md file checklist complete. The other 12 are end-to-end tests on synthetic samples:
 - profiling Excel, RDL, PBIX, PBIT and PBIP files;
 - gates, verification rules and change detection;
 - table and matrix paginated reports;
@@ -105,7 +106,7 @@ Generated **TMDL** follows Microsoft's documented syntax and passes `model_valid
 
 ## Set up
 
-The full route, from personal repo to enterprise repo to a working agent, is in **[HANDOVER.md](HANDOVER.md)**. In short:
+The full route, from personal repo to enterprise repo to a working agent, is in **[HANDOVER.md](HANDOVER.md)**. To copy the files into an agent you've already cloned, without moving the repository, follow **[MANUAL-SETUP.md](MANUAL-SETUP.md)**. In short:
 
 1. **Run the tests** (Python 3.10+ with `openpyxl`; `Pillow` optional): `python dev/tests/run_tests.py`.
 2. **Organisation settings** (enterprise repo): copy `org/org-settings.example.json` to `org/org-settings.json` and fill it in (table below). Add the starter template (`skills/report-development/templates/README.md`).
